@@ -1,0 +1,471 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#54101c">
+<title>Burhas İnşaat | Güvenle İnşa Ediyoruz</title>
+<style>
+:root{--red:#641321;--dark:#171719;--gold:#c9a45c;--light:#f5f3ef}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Arial,sans-serif;background:var(--light);color:#222}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
+header{background:#171719;color:white;padding:15px 5%;display:flex;justify-content:space-between;align-items:center;gap:15px;position:sticky;top:0;z-index:20}
+.logo{font-size:23px;font-weight:900}
+.logo span{color:var(--gold)}
+nav{display:flex;gap:18px;align-items:center}
+nav a{font-size:13px;color:white}
+.menu-btn{display:none;background:none;color:white;border:0;font-size:25px}
+.hero{min-height:480px;padding:85px 7%;display:flex;align-items:center;color:white;background:linear-gradient(90deg,#170d10ed,#260e17a8,#0005),url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1800&q=85") center/cover}
+.hero-content{max-width:700px}
+.hero small{color:var(--gold);font-weight:bold;letter-spacing:3px}
+.hero h1{font-size:clamp(36px,6vw,65px);line-height:1.1;margin:18px 0}
+.hero p{font-size:17px;line-height:1.7;color:#eee}
+.btn{display:inline-block;border:0;border-radius:5px;padding:13px 20px;background:var(--gold);color:#171719;font-weight:bold;margin:15px 7px 0 0}
+.btn.red{background:var(--red);color:white}
+.btn.dark{background:#242426;color:white}
+.section{padding:60px 6%;scroll-margin-top:75px}
+.white{background:white}
+.section-head{text-align:center;margin-bottom:30px}
+.section-head small{color:var(--red);font-weight:bold;letter-spacing:2px}
+.section-head h2{font-size:30px;margin:10px 0}
+.section-head p{color:#777;line-height:1.6}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;background:var(--red);color:white;padding:30px 6%;text-align:center}
+.stat strong{font-size:30px;color:var(--gold);display:block}
+.about-grid,.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center}
+.about-grid h2{font-size:30px;margin:12px 0}
+.about-grid p{line-height:1.8;color:#555;margin-bottom:12px}
+.about-image{min-height:290px;border-radius:10px;background:url("https://images.unsplash.com/photo-1541976590-713941681591?auto=format&fit=crop&w=1000&q=80") center/cover}
+.services,.projects{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.service{background:white;padding:25px;border-radius:8px;border-bottom:3px solid var(--gold);box-shadow:0 4px 15px #00000010}
+.service .symbol{font-size:32px;margin-bottom:12px}
+.service h3{margin-bottom:9px}
+.service p{font-size:14px;color:#666;line-height:1.6}
+.project-tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.project-tools input,.project-tools select{padding:12px;border:1px solid #ddd;border-radius:5px;flex:1;min-width:150px}
+.project-card{background:white;border-radius:8px;overflow:hidden;box-shadow:0 4px 15px #00000012}
+.project-cover{height:190px;background:#e5e2dc}
+.project-cover img{width:100%;height:100%;object-fit:cover}
+.no-photo{height:100%;display:grid;place-items:center;font-size:45px;color:#777}
+.project-info{padding:17px}
+.project-info h3{margin:10px 0}
+.project-info p{font-size:13px;color:#666;line-height:1.6;margin:5px 0}
+.status{display:inline-block;padding:5px 9px;border-radius:20px;background:#e5f4e9;color:#16753a;font-size:11px;font-weight:bold}
+.status.continue{background:#fff0d5;color:#9b6100}
+.empty{grid-column:1/-1;text-align:center;padding:35px;background:white;color:#777}
+.contact-box{background:white;padding:25px;border-radius:9px}
+.contact-box p{margin:12px 0;color:#555;line-height:1.7}
+.contact-form input,.contact-form textarea{width:100%;padding:12px;margin:7px 0;border:1px solid #ddd;border-radius:5px}
+.contact-form textarea{min-height:100px}
+footer{background:#171719;color:#ddd;padding:30px;text-align:center;line-height:1.8}
+footer strong{color:var(--gold)}
+.admin-entry{position:fixed;right:14px;bottom:14px;z-index:9999;background:var(--red);color:white;border:0;border-radius:50px;padding:14px 20px;font-weight:bold;box-shadow:0 4px 15px #0005;pointer-events:auto;touch-action:manipulation}
+.modal{display:none;position:fixed;inset:0;background:#000b;z-index:10000;overflow:auto;padding:15px;align-items:center;justify-content:center}
+.modal.show{display:flex}
+.modal-box{background:white;width:100%;max-width:850px;max-height:92vh;overflow:auto;border-radius:10px;padding:25px;position:relative}
+.close{position:absolute;right:12px;top:10px;border:0;background:#eee;border-radius:50%;width:35px;height:35px;font-size:22px}
+.login-box{max-width:400px}
+.login-box input{width:100%;padding:13px;margin:12px 0;border:1px solid #ddd;border-radius:5px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:13px;font-weight:bold;margin-bottom:6px}
+.field input,.field textarea,.field select{width:100%;padding:12px;border:1px solid #ddd;border-radius:5px}
+.field textarea{min-height:90px}
+.full{grid-column:1/-1}
+.admin-item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px;border-bottom:1px solid #eee}
+.admin-item small{display:block;color:#777;margin-top:5px}
+.admin-actions{display:flex;gap:6px;flex-wrap:wrap}
+.admin-actions button{padding:8px;border:0;border-radius:4px}
+.edit-btn{background:#eee}
+.delete-btn{background:#fee0e0;color:#a00}
+.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:15px}
+.gallery img,.gallery video{width:100%;max-height:300px;object-fit:cover;border-radius:6px}
+.detail-text{white-space:pre-wrap;line-height:1.7;color:#555}
+@media(max-width:800px){
+.menu-btn{display:block}
+nav{display:none;position:absolute;top:60px;left:0;right:0;background:#171719;padding:20px;flex-direction:column;align-items:flex-start}
+nav.open{display:flex}
+.services,.projects{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:550px){
+.hero{min-height:420px;padding:55px 6%}
+.section{padding:45px 5%}
+.services,.projects,.about-grid,.contact-grid,.form-grid{grid-template-columns:1fr}
+.stats{padding:22px 4%}
+.stat strong{font-size:24px}
+.modal-box{padding:20px 15px}
+.admin-item{align-items:flex-start;flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<header>
+<a class="logo" href="#anasayfa">BURHAS <span>İNŞAAT</span></a>
+<button type="button" class="menu-btn" id="menuBtn">☰</button>
+<nav id="nav">
+<a href="#anasayfa">Ana Sayfa</a>
+<a href="#hakkimizda">Hakkımızda</a>
+<a href="#hizmetler">Hizmetlerimiz</a>
+<a href="#projeler">Projelerimiz</a>
+<a href="#iletisim">İletişim</a>
+</nav>
+</header>
+
+<section class="hero" id="anasayfa">
+<div class="hero-content">
+<small>BURHAS İNŞAAT</small>
+<h1>Geleceği Güvenle İnşa Ediyoruz</h1>
+<p>Kaliteli işçilik, sağlam yapılar ve güvenilir hizmet anlayışıyla projelerinizi hayata geçiriyoruz. Her projede tecrübemizle, her adımda güveninizle ilerliyoruz.</p>
+<a class="btn" href="#projeler">Projelerimizi İnceleyin</a>
+<a class="btn red" href="#iletisim">Bizimle İletişime Geçin</a>
+</div>
+</section>
+
+<section class="stats">
+<div class="stat"><strong id="totalProjects">0</strong><span>Proje Kaydı</span></div>
+<div class="stat"><strong id="completedProjects">0</strong><span>Tamamlanan Proje</span></div>
+<div class="stat"><strong id="ongoingProjects">0</strong><span>Devam Eden Proje</span></div>
+</section>
+
+<section class="section white" id="hakkimizda">
+<div class="about-grid">
+<div>
+<small style="color:#641321;font-weight:bold">BİZ KİMİZ?</small>
+<h2>Burhas İnşaat'a Hoş Geldiniz</h2>
+<p>Burhas İnşaat olarak inşaat ve yapı sektöründe kaliteyi, güveni ve müşteri memnuniyetini ön planda tutuyoruz.</p>
+<p>Üstlendiğimiz her işi planlı, titiz ve profesyonel bir anlayışla yürütmeyi hedefliyoruz. Tamamladığımız ve devam eden projelerimizi bu sayfada inceleyebilirsiniz.</p>
+<a class="btn red" href="#iletisim">İletişime Geçin</a>
+</div>
+<div class="about-image"></div>
+</div>
+</section>
+
+<section class="section" id="hizmetler">
+<div class="section-head"><small>HİZMETLERİMİZ</small><h2>Çözüm Odaklı İnşaat Hizmetleri</h2><p>Projelerinizde güvenilir, planlı ve kaliteli çalışma anlayışı.</p></div>
+<div class="services">
+<div class="service"><div class="symbol">🏗️</div><h3>İnşaat İşleri</h3><p>Yapı ve inşaat projelerinde planlama ve uygulama hizmetleri.</p></div>
+<div class="service"><div class="symbol">🏢</div><h3>Yapı Uygulamaları</h3><p>İhtiyaca uygun yapı uygulamaları ve saha çalışmaları.</p></div>
+<div class="service"><div class="symbol">🧱</div><h3>Tadilat ve Onarım</h3><p>Yapıların yenilenmesi, onarımı ve iyileştirilmesi.</p></div>
+<div class="service"><div class="symbol">📐</div><h3>Proje Yönetimi</h3><p>İş süreçlerinin planlı ve kontrollü şekilde yürütülmesi.</p></div>
+<div class="service"><div class="symbol">👷</div><h3>Şantiye Çalışmaları</h3><p>Şantiye süreçlerinde koordinasyon ve saha takibi.</p></div>
+<div class="service"><div class="symbol">🏠</div><h3>Yapı ve Dekorasyon</h3><p>Yapıların kullanım ve görünüm ihtiyaçlarına yönelik çalışmalar.</p></div>
+</div>
+</section>
+
+<section class="section white" id="projeler">
+<div class="section-head"><small>REFERANSLARIMIZ</small><h2>Projelerimiz</h2><p>Farklı şehirlerde gerçekleştirdiğimiz çalışmaları inceleyin.</p></div>
+<div class="project-tools">
+<input id="searchProject" placeholder="Proje, şehir veya adres ara...">
+<select id="filterStatus"><option value="">Tüm Projeler</option><option value="Tamamlandı">Tamamlananlar</option><option value="Devam Ediyor">Devam Edenler</option></select>
+</div>
+<div class="projects" id="projectsList"></div>
+</section>
+
+<section class="section" id="iletisim">
+<div class="section-head"><small>BİZE ULAŞIN</small><h2>Projenizi Birlikte Hayata Geçirelim</h2></div>
+<div class="contact-grid">
+<div class="contact-box">
+<h3>Burhas İnşaat</h3>
+<p>📞 Telefon: <strong>+90 546 220 15 21</strong></p>
+<p>💬 WhatsApp üzerinden bize ulaşabilirsiniz.</p>
+<p>📍 Türkiye genelinde proje ve şantiye çalışmaları.</p>
+<a class="btn red" href="tel:+905462201521">Hemen Ara</a>
+<a class="btn" target="_blank" href="https://wa.me/905462201521">WhatsApp</a>
+</div>
+<div class="contact-box contact-form">
+<h3>Teklif Talep Formu</h3>
+<input id="offerName" placeholder="Adınız soyadınız">
+<input id="offerPhone" placeholder="Telefon numaranız">
+<input id="offerCity" placeholder="Projenin bulunduğu şehir">
+<textarea id="offerMessage" placeholder="Yapılacak iş hakkında bilgi verin"></textarea>
+<button type="button" class="btn red" id="offerBtn">Teklif Talebini Gönder</button>
+</div>
+</div>
+</section>
+
+<footer><strong>BURHAS İNŞAAT</strong><br>Güvenle inşa ediyoruz. Kaliteyle geleceğe ilerliyoruz.<br>© <span id="year"></span> Burhas İnşaat. Tüm hakları saklıdır.</footer>
+
+<button type="button" class="admin-entry" id="adminOpenBtn">⚙ Yönetici</button>
+
+<div class="modal" id="loginModal">
+<div class="modal-box login-box">
+<button type="button" class="close" data-close="loginModal">×</button>
+<h2>Yönetici Girişi</h2>
+<p>Yönetim paneline erişmek için şifrenizi girin.</p>
+<input id="adminPassword" type="password" placeholder="Yönetici şifresi">
+<button type="button" class="btn red" id="loginBtn">Giriş Yap</button>
+<p id="loginError" style="color:#b00;margin-top:10px"></p>
+</div>
+</div>
+
+<div class="modal" id="adminModal">
+<div class="modal-box">
+<button type="button" class="close" data-close="adminModal">×</button>
+<h2>Burhas İnşaat Yönetim Paneli</h2>
+<p style="color:#777;margin-bottom:20px">Projelerinizi buradan ekleyebilir, düzenleyebilir ve silebilirsiniz.</p>
+<form id="projectForm">
+<input type="hidden" id="editId">
+<div class="form-grid">
+<div class="field"><label>Proje Adı *</label><input id="pName" required placeholder="Örn. Konut İnşaatı"></div>
+<div class="field"><label>Şehir *</label><input id="pCity" required placeholder="Örn. Kahramanmaraş"></div>
+<div class="field"><label>İlçe</label><input id="pDistrict" placeholder="İlçe"></div>
+<div class="field"><label>Proje Durumu</label><select id="pStatus"><option>Tamamlandı</option><option>Devam Ediyor</option></select></div>
+<div class="field full"><label>Açık Adres</label><input id="pAddress" placeholder="Mahalle, cadde, sokak ve adres"></div>
+<div class="field"><label>Başlangıç Tarihi</label><input id="pStart" type="date"></div>
+<div class="field"><label>Bitiş Tarihi</label><input id="pEnd" type="date"></div>
+<div class="field full"><label>Yapılan İşin Açıklaması</label><textarea id="pDescription" placeholder="Projede yapılan işleri detaylı yazın..."></textarea></div>
+<div class="field full"><label>Proje Fotoğraf ve Videoları</label><input id="pMedia" type="file" accept="image/*,video/*" multiple><small>Birden fazla dosya seçebilirsiniz.</small></div>
+</div>
+<button class="btn red" type="submit" id="saveBtn">Projeyi Kaydet</button>
+<button class="btn dark" type="button" id="resetBtn">Formu Temizle</button>
+</form>
+<div class="admin-list"><h3>Kayıtlı Projeler</h3><div id="adminProjects"></div></div>
+<button class="btn dark" type="button" id="logoutBtn">Oturumu Kapat</button>
+</div>
+</div>
+
+<div class="modal" id="detailModal">
+<div class="modal-box">
+<button type="button" class="close" data-close="detailModal">×</button>
+<div id="detailContent"></div>
+</div>
+</div>
+
+<script>
+(function(){
+"use strict";
+const ADMIN_PASSWORD="miran2121";
+const PHONE="905462201521";
+const STORAGE_KEY="burhas_projects_v2";
+let projects=[];
+let db=null;
+
+const $=id=>document.getElementById(id);
+const showModal=id=>$(id).classList.add("show");
+const hideModal=id=>$(id).classList.remove("show");
+
+function escapeHTML(v){
+ return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function loadProjects(){
+ try{projects=JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]");if(!Array.isArray(projects))projects=[];}
+ catch(e){projects=[];}
+}
+function saveProjects(){
+ localStorage.setItem(STORAGE_KEY,JSON.stringify(projects));
+}
+function openDB(){
+ return new Promise((resolve,reject)=>{
+  if(!window.indexedDB){reject(new Error("IndexedDB desteklenmiyor"));return;}
+  const request=indexedDB.open("BurhasMediaDB_v2",1);
+  request.onupgradeneeded=()=>{
+   const d=request.result;
+   if(!d.objectStoreNames.contains("media"))d.createObjectStore("media",{keyPath:"id"});
+  };
+  request.onsuccess=()=>{db=request.result;resolve(db);};
+  request.onerror=()=>reject(request.error);
+ });
+}
+function getMedia(id){
+ return new Promise((resolve,reject)=>{
+  if(!db){resolve([]);return;}
+  const r=db.transaction("media","readonly").objectStore("media").get(id);
+  r.onsuccess=()=>resolve(r.result?.files||[]);
+  r.onerror=()=>reject(r.error);
+ });
+}
+function putMedia(id,files){
+ return new Promise((resolve,reject)=>{
+  if(!db){reject(new Error("Medya depolaması açılamadı"));return;}
+  const tx=db.transaction("media","readwrite");
+  tx.objectStore("media").put({id,files});
+  tx.oncomplete=resolve;
+  tx.onerror=()=>reject(tx.error);
+ });
+}
+function removeMedia(id){
+ return new Promise(resolve=>{
+  if(!db){resolve();return;}
+  const tx=db.transaction("media","readwrite");
+  tx.objectStore("media").delete(id);
+  tx.oncomplete=resolve;
+  tx.onerror=resolve;
+ });
+}
+function toData(file){
+ return new Promise((resolve,reject)=>{
+  const r=new FileReader();
+  r.onload=()=>resolve({name:file.name,type:file.type,data:r.result});
+  r.onerror=()=>reject(r.error);
+  r.readAsDataURL(file);
+ });
+}
+function updateStats(){
+ $("totalProjects").textContent=projects.length;
+ $("completedProjects").textContent=projects.filter(p=>p.status==="Tamamlandı").length;
+ $("ongoingProjects").textContent=projects.filter(p=>p.status==="Devam Ediyor").length;
+}
+async function renderProjects(){
+ const list=$("projectsList");
+ const q=$("searchProject").value.toLocaleLowerCase("tr");
+ const status=$("filterStatus").value;
+ const filtered=projects.filter(p=>{
+  const s=[p.name,p.city,p.district,p.address,p.description].join(" ").toLocaleLowerCase("tr");
+  return s.includes(q)&&(!status||p.status===status);
+ });
+ updateStats();
+ if(!filtered.length){list.innerHTML='<div class="empty">Henüz proje eklenmemiş.</div>';return;}
+ list.innerHTML="";
+ for(const p of filtered){
+  let files=[];
+  try{files=await getMedia(p.id);}catch(e){}
+  const cover=files.find(f=>f.type&&f.type.startsWith("image/"));
+  const card=document.createElement("article");
+  card.className="project-card";
+  card.innerHTML='<div class="project-cover">'+(cover?'<img src="'+cover.data+'" alt="">':'<div class="no-photo">🏗️</div>')+'</div>'+
+  '<div class="project-info"><span class="status '+(p.status==="Devam Ediyor"?"continue":"")+'">'+escapeHTML(p.status)+'</span>'+
+  '<h3>'+escapeHTML(p.name)+'</h3><p>📍 '+escapeHTML([p.district,p.city].filter(Boolean).join(" / "))+'</p>'+
+  '<p>'+escapeHTML((p.description||"").slice(0,100))+'</p>'+
+  '<button type="button" class="btn red" data-detail="'+p.id+'">Projeyi İncele</button></div>';
+  list.appendChild(card);
+ }
+}
+async function showDetail(id){
+ const p=projects.find(x=>x.id===id);if(!p)return;
+ const files=await getMedia(id).catch(()=>[]);
+ const gallery=files.map(f=>f.type&&f.type.startsWith("video/")?
+ '<video controls src="'+f.data+'"></video>':
+ '<img src="'+f.data+'" alt="'+escapeHTML(f.name)+'">').join("");
+ $("detailContent").innerHTML=
+ '<span class="status '+(p.status==="Devam Ediyor"?"continue":"")+'">'+escapeHTML(p.status)+'</span>'+
+ '<h2 style="margin:12px 0">'+escapeHTML(p.name)+'</h2>'+
+ '<p class="detail-text"><b>Konum:</b> '+escapeHTML([p.district,p.city].filter(Boolean).join(" / "))+'</p>'+
+ '<p class="detail-text"><b>Adres:</b> '+escapeHTML(p.address||"Belirtilmedi")+'</p>'+
+ '<p class="detail-text"><b>Başlangıç:</b> '+escapeHTML(p.start||"Belirtilmedi")+' | <b>Bitiş:</b> '+escapeHTML(p.end||"Belirtilmedi")+'</p>'+
+ '<hr style="margin:15px 0"><h3>Yapılan Çalışmalar</h3><p class="detail-text">'+escapeHTML(p.description||"Açıklama eklenmemiş.")+'</p>'+
+ (gallery?'<h3 style="margin-top:18px">Fotoğraf ve Videolar</h3><div class="gallery">'+gallery+'</div>':"")+
+ '<a class="btn" target="_blank" href="https://wa.me/'+PHONE+'?text='+encodeURIComponent(p.name+" projesi hakkında bilgi almak istiyorum.")+'">Proje Hakkında Bilgi Al</a>';
+ showModal("detailModal");
+}
+function renderAdmin(){
+ const box=$("adminProjects");
+ if(!projects.length){box.innerHTML="<p style='padding:15px;color:#777'>Henüz proje yok.</p>";return;}
+ box.innerHTML=projects.map(p=>
+ '<div class="admin-item"><div><b>'+escapeHTML(p.name)+'</b><small>'+escapeHTML(p.city)+' · '+escapeHTML(p.status)+'</small></div>'+
+ '<div class="admin-actions"><button type="button" class="edit-btn" data-edit="'+p.id+'">Düzenle</button>'+
+ '<button type="button" class="delete-btn" data-delete="'+p.id+'">Sil</button>'+
+ '<button type="button" class="edit-btn" data-detail="'+p.id+'">Görüntüle</button></div></div>'
+ ).join("");
+}
+function resetForm(){
+ $("projectForm").reset();
+ $("editId").value="";
+ $("saveBtn").textContent="Projeyi Kaydet";
+}
+async function saveProject(event){
+ event.preventDefault();
+ const id=$("editId").value||("p_"+Date.now());
+ const old=projects.find(p=>p.id===id);
+ const p={
+  id,name:$("pName").value.trim(),city:$("pCity").value.trim(),
+  district:$("pDistrict").value.trim(),status:$("pStatus").value,
+  address:$("pAddress").value.trim(),start:$("pStart").value,
+  end:$("pEnd").value,description:$("pDescription").value.trim()
+ };
+ try{
+  const chosen=Array.from($("pMedia").files||[]);
+  const added=await Promise.all(chosen.map(toData));
+  const existing=old?await getMedia(id):[];
+  if(db)await putMedia(id,[...existing,...added]);
+  if(old)projects=projects.map(x=>x.id===id?p:x);
+  else projects.unshift(p);
+  saveProjects();resetForm();renderAdmin();await renderProjects();
+  alert("Proje kaydedildi.");
+ }catch(e){alert("Kayıt yapılamadı. Fotoğraf/video dosyalarının boyutunu azaltıp tekrar deneyin.");}
+}
+function editProject(id){
+ const p=projects.find(x=>x.id===id);if(!p)return;
+ $("editId").value=p.id;
+ $("pName").value=p.name||"";
+ $("pCity").value=p.city||"";
+ $("pDistrict").value=p.district||"";
+ $("pStatus").value=p.status||"Tamamlandı";
+ $("pAddress").value=p.address||"";
+ $("pStart").value=p.start||"";
+ $("pEnd").value=p.end||"";
+ $("pDescription").value=p.description||"";
+ $("saveBtn").textContent="Değişiklikleri Kaydet";
+ $("pName").scrollIntoView({behavior:"smooth",block:"center"});
+}
+async function deleteProject(id){
+ if(!confirm("Bu projeyi ve medya dosyalarını silmek istiyor musunuz?"))return;
+ projects=projects.filter(p=>p.id!==id);
+ saveProjects();await removeMedia(id);renderAdmin();renderProjects();
+}
+function login(){
+ const pass=$("adminPassword").value;
+ if(pass===ADMIN_PASSWORD){
+  hideModal("loginModal");
+  $("adminPassword").value="";
+  $("loginError").textContent="";
+  showModal("adminModal");
+  renderAdmin();
+ }else{
+  $("loginError").textContent="Şifre hatalı. Tekrar deneyin.";
+ }
+}
+function sendOffer(){
+ const name=$("offerName").value.trim();
+ const phone=$("offerPhone").value.trim();
+ const city=$("offerCity").value.trim();
+ const message=$("offerMessage").value.trim();
+ if(!name||!phone||!message){alert("Ad, telefon ve iş açıklaması zorunludur.");return;}
+ const msg="Merhaba Burhas İnşaat, teklif talebim var.\nAd Soyad: "+name+"\nTelefon: "+phone+"\nŞehir: "+city+"\nİş: "+message;
+ window.open("https://wa.me/"+PHONE+"?text="+encodeURIComponent(msg),"_blank");
+}
+
+/* BUTONLARIN TAMAMI BURADA BAĞLANIR */
+$("adminOpenBtn").addEventListener("click",function(){
+ $("adminPassword").value="";
+ $("loginError").textContent="";
+ showModal("loginModal");
+});
+$("loginBtn").addEventListener("click",login);
+$("adminPassword").addEventListener("keydown",function(e){if(e.key==="Enter")login();});
+$("menuBtn").addEventListener("click",()=>$("nav").classList.toggle("open"));
+$("searchProject").addEventListener("input",renderProjects);
+$("filterStatus").addEventListener("change",renderProjects);
+$("projectForm").addEventListener("submit",saveProject);
+$("resetBtn").addEventListener("click",resetForm);
+$("logoutBtn").addEventListener("click",()=>hideModal("adminModal"));
+$("offerBtn").addEventListener("click",sendOffer);
+document.querySelectorAll("[data-close]").forEach(btn=>{
+ btn.addEventListener("click",()=>hideModal(btn.dataset.close));
+});
+document.addEventListener("click",function(e){
+ const detail=e.target.closest("[data-detail]");
+ const edit=e.target.closest("[data-edit]");
+ const del=e.target.closest("[data-delete]");
+ if(detail)showDetail(detail.dataset.detail);
+ if(edit)editProject(edit.dataset.edit);
+ if(del)deleteProject(del.dataset.delete);
+});
+document.querySelectorAll(".modal").forEach(modal=>{
+ modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("show");});
+});
+$("year").textContent=new Date().getFullYear();
+
+loadProjects();
+openDB().then(()=>renderProjects()).catch(err=>{
+ console.warn("Medya depolama açılamadı:",err);
+ renderProjects();
+});
+})();
+</script>
+</body>
+</html>
